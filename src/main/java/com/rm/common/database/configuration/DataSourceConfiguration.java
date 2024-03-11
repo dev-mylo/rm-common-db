@@ -38,19 +38,19 @@ public class DataSourceConfiguration {
         ReplicationDataSourceProperties.Write write = replicationDataSourceProperties.getWrite();
         DataSource writeDataSource = createDataSource(write.getUrl(), "Write Datasource Pool", write.getPoolSize(), write.isReadOnly());
 
-        Map<Object, Object> dataSourceMap = new HashMap<>();
-        dataSourceMap.put(write.getName(), writeDataSource);
+//        Map<Object, Object> dataSourceMap = new HashMap<>();
+//        dataSourceMap.put(write.getName(), writeDataSource);
+//
+//        List<ReplicationDataSourceProperties.Read> reads = replicationDataSourceProperties.getReads();
+//        for (ReplicationDataSourceProperties.Read read : reads) {
+//            dataSourceMap.put(read.getName(), createDataSource(read.getUrl(),"Read Datasource Pool", read.getPoolSize(), read.isReadOnly()));
+//        }
+//
+//        replicationRoutingDataSource.setDefaultTargetDataSource(writeDataSource);
+//        replicationRoutingDataSource.setTargetDataSources(dataSourceMap);
+//        replicationRoutingDataSource.afterPropertiesSet();
 
-        List<ReplicationDataSourceProperties.Read> reads = replicationDataSourceProperties.getReads();
-        for (ReplicationDataSourceProperties.Read read : reads) {
-            dataSourceMap.put(read.getName(), createDataSource(read.getUrl(),"Read Datasource Pool", read.getPoolSize(), read.isReadOnly()));
-        }
-
-        replicationRoutingDataSource.setDefaultTargetDataSource(writeDataSource);
-        replicationRoutingDataSource.setTargetDataSources(dataSourceMap);
-        replicationRoutingDataSource.afterPropertiesSet();
-
-        return new LazyConnectionDataSourceProxy(replicationRoutingDataSource);
+        return writeDataSource;
     }
 
     private DataSource createDataSource(String url, String poolName, Integer poolSize, Boolean readOnly) {
